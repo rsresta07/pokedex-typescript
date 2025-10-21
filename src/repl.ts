@@ -1,19 +1,12 @@
-import readline from "node:readline";
 import { cleanInput } from "./utils/cleanInput.js";
-import { getCommands } from "./utils/getCommands.js";
+import type { State } from "./state.js";
 
-export function startREPL() {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    prompt: "> ",
-  });
-
-  const commands = getCommands();
+export function startREPL(state: State) {
+  const { rl, commands } = state;
 
   rl.prompt();
 
-  rl.on("line", (line: string) => {
+  rl.on("line", async (line: string) => {
     const words = cleanInput(line);
 
     if (words.length === 0) {
@@ -26,9 +19,9 @@ export function startREPL() {
 
     if (cmd) {
       try {
-        cmd.callback(commands);
+        await cmd.callback(state);
       } catch (err) {
-        console.error("Error running command:", err);
+        console.error("Error running command:", (err as Error).message);
       }
     } else {
       console.log("Unknown command");

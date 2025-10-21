@@ -1,8 +1,9 @@
-import type { CLICommand } from "../types/command.js";
+import type { CLICommand } from "../state.js";
 import { commandExit } from "./commandExit.js";
 import { commandHelp } from "./commandHelp.js";
+import { commandMap } from "./commandMap.js";
+import { commandMapBack } from "./commandMapBack.js";
 
-// Returns an object (registry) mapping command names to handlers
 export function getCommands(): Record<string, CLICommand> {
   return {
     help: {
@@ -14,6 +15,16 @@ export function getCommands(): Record<string, CLICommand> {
       name: "exit",
       description: "Exit the Pokedex",
       callback: commandExit,
+    },
+    map: {
+      name: "map",
+      description: "Displays the next 20 location areas",
+      callback: commandMap,
+    },
+    mapb: {
+      name: "mapb",
+      description: "Displays the previous 20 location areas",
+      callback: commandMapBack,
     },
   };
 }
