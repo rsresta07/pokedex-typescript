@@ -14,3 +14,4 @@ export async function commandMap(state: State): Promise<void> {
     console.error("Error fetching locations:", (err as Error).message);
   }
 }
+
